@@ -14,7 +14,7 @@ func assertEqual(t *testing.T, a, b string) {
 
 // test data
 
-var SingularToPlural map[string]string = map[string]string{
+var SingularToPlural = map[string]string{
 	"search":      "searches",
 	"switch":      "switches",
 	"fix":         "fixes",
@@ -96,55 +96,55 @@ var SingularToPlural map[string]string = map[string]string{
 	"database":    "databases",
 }
 
-var CapitalizeMixture map[string]string = map[string]string{
+var CapitalizeMixture = map[string]string{
 	"product":               "Product",
 	"special_guest":         "Special_guest",
 	"applicationController": "ApplicationController",
 	"Area51Controller":      "Area51Controller",
 }
 
-var CamelToUnderscore map[string]string = map[string]string{
+var CamelToUnderscore = map[string]string{
 	"Product":               "product",
 	"SpecialGuest":          "special_guest",
 	"ApplicationController": "application_controller",
 	"Area51Controller":      "area51_controller",
 }
 
-var UnderscoreToLowerCamel map[string]string = map[string]string{
+var UnderscoreToLowerCamel = map[string]string{
 	"product":                "product",
 	"special_guest":          "specialGuest",
 	"application_controller": "applicationController",
 	"area51_controller":      "area51Controller",
 }
 
-var CamelToUnderscoreWithoutReverse map[string]string = map[string]string{
+var CamelToUnderscoreWithoutReverse = map[string]string{
 	"HTMLTidy":          "html_tidy",
 	"HTMLTidyGenerator": "html_tidy_generator",
 	"FreeBsd":           "free_bsd",
 	"HTML":              "html",
 }
 
-var ClassNameToForeignKeyWithUnderscore map[string]string = map[string]string{
+var ClassNameToForeignKeyWithUnderscore = map[string]string{
 	"Person":  "person_id",
 	"Account": "account_id",
 }
 
-var PluralToForeignKeyWithUnderscore map[string]string = map[string]string{
+var PluralToForeignKeyWithUnderscore = map[string]string{
 	"people":   "person_id",
 	"accounts": "account_id",
 }
 
-var ClassNameToForeignKeyWithoutUnderscore map[string]string = map[string]string{
+var ClassNameToForeignKeyWithoutUnderscore = map[string]string{
 	"Person":  "personid",
 	"Account": "accountid",
 }
 
-var ClassNameToTableName map[string]string = map[string]string{
+var ClassNameToTableName = map[string]string{
 	"PrimarySpokesman": "primary_spokesmen",
 	"NodeChild":        "node_children",
 }
 
-var StringToParameterized map[string]string = map[string]string{
+var StringToParameterized = map[string]string{
 	"Donald E. Knuth":                     "donald-e-knuth",
 	"Random text with *(bad)* characters": "random-text-with-bad-characters",
 	"Allow_Under_Scores":                  "allow_under_scores",
@@ -155,7 +155,7 @@ var StringToParameterized map[string]string = map[string]string{
 	"Test with malformed utf8 \251":       "test-with-malformed-utf8",
 }
 
-var StringToParameterizeWithNoSeparator map[string]string = map[string]string{
+var StringToParameterizeWithNoSeparator = map[string]string{
 	"Donald E. Knuth":                     "donaldeknuth",
 	"With-some-dashes":                    "with-some-dashes",
 	"Random text with *(bad)* characters": "randomtextwithbadcharacters",
@@ -166,7 +166,7 @@ var StringToParameterizeWithNoSeparator map[string]string = map[string]string{
 	"Test with malformed utf8 \251":       "testwithmalformedutf8",
 }
 
-var StringToParameterizeWithUnderscore map[string]string = map[string]string{
+var StringToParameterizeWithUnderscore = map[string]string{
 	"Donald E. Knuth":                     "donald_e_knuth",
 	"Random text with *(bad)* characters": "random_text_with_bad_characters",
 	"With-some-dashes":                    "with-some-dashes",
@@ -178,7 +178,7 @@ var StringToParameterizeWithUnderscore map[string]string = map[string]string{
 	"Test with malformed utf8 \251":       "test_with_malformed_utf8",
 }
 
-var StringToParameterizedAndNormalized map[string]string = map[string]string{
+var StringToParameterizedAndNormalized = map[string]string{
 	"Malmö":         "malmo",
 	"Garçons":       "garcons",
 	"Opsů":          "opsu",
@@ -187,13 +187,13 @@ var StringToParameterizedAndNormalized map[string]string = map[string]string{
 	"Japanese: 日本語": "japanese",
 }
 
-var UnderscoreToHuman map[string]string = map[string]string{
+var UnderscoreToHuman = map[string]string{
 	"employee_salary": "Employee salary",
 	"employee_id":     "Employee",
 	"underground":     "Underground",
 }
 
-var MixtureToTitleCase map[string]string = map[string]string{
+var MixtureToTitleCase = map[string]string{
 	"active_record":      "Active Record",
 	"ActiveRecord":       "Active Record",
 	"action web service": "Action Web Service",
@@ -206,7 +206,7 @@ var MixtureToTitleCase map[string]string = map[string]string{
 	"david's Code":       "David's Code",
 }
 
-var OrdinalNumbers map[string]string = map[string]string{
+var OrdinalNumbers = map[string]string{
 	"-1":    "-1st",
 	"-2":    "-2nd",
 	"-3":    "-3rd",
@@ -270,13 +270,13 @@ var OrdinalNumbers map[string]string = map[string]string{
 	"1001":  "1001st",
 }
 
-var UnderscoresToDashes map[string]string = map[string]string{
+var UnderscoresToDashes = map[string]string{
 	"street":                "street",
 	"street_address":        "street-address",
 	"person_street_address": "person-street-address",
 }
 
-var Irregularities map[string]string = map[string]string{
+var Irregularities = map[string]string{
 	"person": "people",
 	"man":    "men",
 	"child":  "children",
@@ -291,7 +291,7 @@ type AcronymCase struct {
 	title string
 }
 
-var AcronymCases []*AcronymCase = []*AcronymCase{
+var AcronymCases = []*AcronymCase{
 	//           camelize             underscore            humanize              titleize
 	&AcronymCase{"API", "api", "API", "API"},
 	&AcronymCase{"APIController", "api_controller", "API controller", "API Controller"},
@@ -326,7 +326,7 @@ func TestPluralizeEmptyString(t *testing.T) {
 }
 
 func TestUncountables(t *testing.T) {
-	for word, _ := range Uncountables() {
+	for word := range Uncountables() {
 		assertEqual(t, word, Singularize(word))
 		assertEqual(t, word, Pluralize(word))
 		assertEqual(t, Pluralize(word), Singularize(word))
@@ -456,14 +456,14 @@ func TestUnderscore(t *testing.T) {
 }
 
 func TestForeignKey(t *testing.T) {
-	for klass, foreign_key := range ClassNameToForeignKeyWithUnderscore {
-		assertEqual(t, foreign_key, ForeignKey(klass))
+	for klass, foreignKey := range ClassNameToForeignKeyWithUnderscore {
+		assertEqual(t, foreignKey, ForeignKey(klass))
 	}
-	for word, foreign_key := range PluralToForeignKeyWithUnderscore {
-		assertEqual(t, foreign_key, ForeignKey(word))
+	for word, foreignKey := range PluralToForeignKeyWithUnderscore {
+		assertEqual(t, foreignKey, ForeignKey(word))
 	}
-	for klass, foreign_key := range ClassNameToForeignKeyWithoutUnderscore {
-		assertEqual(t, foreign_key, ForeignKeyCondensed(klass))
+	for klass, foreignKey := range ClassNameToForeignKeyWithoutUnderscore {
+		assertEqual(t, foreignKey, ForeignKeyCondensed(klass))
 	}
 }
 
@@ -526,7 +526,7 @@ func TestDasherize(t *testing.T) {
 }
 
 func TestUnderscoreAsReverseOfDasherize(t *testing.T) {
-	for underscored, _ := range UnderscoresToDashes {
+	for underscored := range UnderscoresToDashes {
 		assertEqual(t, underscored, Underscore(Dasherize(underscored)))
 	}
 }
