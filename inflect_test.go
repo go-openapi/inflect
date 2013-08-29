@@ -92,7 +92,6 @@ var SingularToPlural = map[string]string{
 	"horse":       "horses",
 	"prize":       "prizes",
 	"edge":        "edges",
-	"cow":         "kine",
 	"database":    "databases",
 }
 

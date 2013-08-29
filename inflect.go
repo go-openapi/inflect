@@ -219,7 +219,6 @@ func NewDefaultRuleset() *Ruleset {
 	rs.AddIrregular("child", "children")
 	rs.AddIrregular("sex", "sexes")
 	rs.AddIrregular("move", "moves")
-	rs.AddIrregular("cow", "kine")
 	rs.AddIrregular("zombie", "zombies")
 	rs.AddUncountable("equipment")
 	rs.AddUncountable("information")
