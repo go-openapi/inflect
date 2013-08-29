@@ -1,6 +1,6 @@
 INSTALLATION
 
-goinstall bitbucket.org/chrisfarms/inflect
+go get bitbucket.org/pkg/inflect
 
 PACKAGE
 
