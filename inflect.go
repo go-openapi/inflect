@@ -230,6 +230,7 @@ func NewDefaultRuleset() *Ruleset {
 	rs.AddUncountable("fish")
 	rs.AddUncountable("sheep")
 	rs.AddUncountable("jeans")
+	rs.AddUncountable("police")
 	return rs
 }
 
