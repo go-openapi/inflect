@@ -641,13 +641,13 @@ func reverse(s string) string {
 
 func isSpacerChar(c rune) bool {
 	switch {
-	case c == rune("_"[0]):
+	case c == '_':
 		return true
-	case c == rune(" "[0]):
+	case c == ':':
 		return true
-	case c == rune(":"[0]):
+	case c == '-':
 		return true
-	case c == rune("-"[0]):
+	case unicode.IsSpace(c):
 		return true
 	}
 	return false
