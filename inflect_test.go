@@ -292,25 +292,25 @@ type AcronymCase struct {
 
 var AcronymCases = []*AcronymCase{
 	//           camelize             underscore            humanize              titleize
-	&AcronymCase{"API", "api", "API", "API"},
-	&AcronymCase{"APIController", "api_controller", "API controller", "API Controller"},
-	&AcronymCase{"Nokogiri::HTML", "nokogiri/html", "Nokogiri/HTML", "Nokogiri/HTML"},
-	&AcronymCase{"HTTPAPI", "http_api", "HTTP API", "HTTP API"},
-	&AcronymCase{"HTTP::Get", "http/get", "HTTP/get", "HTTP/Get"},
-	&AcronymCase{"SSLError", "ssl_error", "SSL error", "SSL Error"},
-	&AcronymCase{"RESTful", "restful", "RESTful", "RESTful"},
-	&AcronymCase{"RESTfulController", "restful_controller", "RESTful controller", "RESTful Controller"},
-	&AcronymCase{"IHeartW3C", "i_heart_w3c", "I heart W3C", "I Heart W3C"},
-	&AcronymCase{"PhDRequired", "phd_required", "PhD required", "PhD Required"},
-	&AcronymCase{"IRoRU", "i_ror_u", "I RoR u", "I RoR U"},
-	&AcronymCase{"RESTfulHTTPAPI", "restful_http_api", "RESTful HTTP API", "RESTful HTTP API"},
+	{camel: "API", under: "api", human: "API", title: "API"},
+	{"APIController", "api_controller", "API controller", "API Controller"},
+	{"Nokogiri::HTML", "nokogiri/html", "Nokogiri/HTML", "Nokogiri/HTML"},
+	{"HTTPAPI", "http_api", "HTTP API", "HTTP API"},
+	{"HTTP::Get", "http/get", "HTTP/get", "HTTP/Get"},
+	{"SSLError", "ssl_error", "SSL error", "SSL Error"},
+	{"RESTful", "restful", "RESTful", "RESTful"},
+	{"RESTfulController", "restful_controller", "RESTful controller", "RESTful Controller"},
+	{"IHeartW3C", "i_heart_w3c", "I heart W3C", "I Heart W3C"},
+	{"PhDRequired", "phd_required", "PhD required", "PhD Required"},
+	{"IRoRU", "i_ror_u", "I RoR u", "I RoR U"},
+	{"RESTfulHTTPAPI", "restful_http_api", "RESTful HTTP API", "RESTful HTTP API"},
 	// misdirection
-	&AcronymCase{"Capistrano", "capistrano", "Capistrano", "Capistrano"},
-	&AcronymCase{"CapiController", "capi_controller", "Capi controller", "Capi Controller"},
-	&AcronymCase{"HttpsApis", "https_apis", "Https apis", "Https Apis"},
-	&AcronymCase{"Html5", "html5", "Html5", "Html5"},
-	&AcronymCase{"Restfully", "restfully", "Restfully", "Restfully"},
-	&AcronymCase{"RoRails", "ro_rails", "Ro rails", "Ro Rails"},
+	{"Capistrano", "capistrano", "Capistrano", "Capistrano"},
+	{"CapiController", "capi_controller", "Capi controller", "Capi Controller"},
+	{"HttpsApis", "https_apis", "Https apis", "Https Apis"},
+	{"Html5", "html5", "Html5", "Html5"},
+	{"Restfully", "restfully", "Restfully", "Restfully"},
+	{"RoRails", "ro_rails", "Ro rails", "Ro Rails"},
 }
 
 // tests
@@ -536,9 +536,11 @@ func TestUnderscoreToLowerCamel(t *testing.T) {
 	}
 }
 
+/*
 func Test_clear_all(t *testing.T) {
 	// test a way of resetting inflexions
 }
+*/
 
 func TestIrregularityBetweenSingularAndPlural(t *testing.T) {
 	for singular, plural := range Irregularities {
