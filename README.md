@@ -8,3 +8,11 @@
 A package to pluralize words.
 
 Originally forked from fork of https://bitbucket.org/pkg/inflect under a MIT License.
+
+A golang library applying grammar rules to English words.
+
+> This package provides a basic set of functions applying
+> grammar rules to inflect English words, modify case style
+> (Capitalize, camelCase, snake_case, etc.).
+>
+> Acronyms are properly handled. A common use case is word pluralization.
