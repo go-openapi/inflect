@@ -4,9 +4,269 @@ import (
 	"testing"
 )
 
-// assert helper
+func TestPluralizePlurals(t *testing.T) {
+	assertEqual(t, "plurals", Pluralize("plurals"))
+	assertEqual(t, "Plurals", Pluralize("Plurals"))
+}
 
+func TestPluralizeEmptyString(t *testing.T) {
+	assertEqual(t, "", Pluralize(""))
+}
+
+func TestUncountables(t *testing.T) {
+	for word := range Uncountables() {
+		assertEqual(t, word, Singularize(word))
+		assertEqual(t, word, Pluralize(word))
+		assertEqual(t, Pluralize(word), Singularize(word))
+	}
+}
+
+func TestUncountableWordIsNotGreedy(t *testing.T) {
+	uncountableWord := "ors"
+	countableWord := "sponsor"
+
+	AddUncountable(uncountableWord)
+
+	assertEqual(t, uncountableWord, Singularize(uncountableWord))
+	assertEqual(t, uncountableWord, Pluralize(uncountableWord))
+	assertEqual(t, Pluralize(uncountableWord), Singularize(uncountableWord))
+	assertEqual(t, "sponsor", Singularize(countableWord))
+	assertEqual(t, "sponsors", Pluralize(countableWord))
+	assertEqual(t, "sponsor", Singularize(Pluralize(countableWord)))
+}
+
+func TestPluralizeSingular(t *testing.T) {
+	for singular, plural := range SingularToPlural {
+		assertEqual(t, plural, Pluralize(singular))
+		assertEqual(t, Capitalize(plural), Capitalize(Pluralize(singular)))
+	}
+}
+
+func TestSingularizePlural(t *testing.T) {
+	assertEqual(t, "", Singularize(""))
+
+	for singular, plural := range SingularToPlural {
+		assertEqual(t, singular, Singularize(plural))
+		assertEqual(t, Capitalize(singular), Capitalize(Singularize(plural)))
+	}
+}
+
+func TestPluralizePlural(t *testing.T) {
+	for _, plural := range SingularToPlural {
+		assertEqual(t, plural, Pluralize(plural))
+		assertEqual(t, Capitalize(plural), Capitalize(Pluralize(plural)))
+	}
+}
+
+func TestOverwritePreviousInflectors(t *testing.T) {
+	assertEqual(t, "series", Singularize("series"))
+	AddSingular("series", "serie")
+	assertEqual(t, "serie", Singularize("series"))
+	AddUncountable("series") // reset
+}
+
+func TestTitleize(t *testing.T) {
+	for before, titleized := range MixtureToTitleCase {
+		assertEqual(t, titleized, Titleize(before))
+	}
+}
+
+func TestCapitalize(t *testing.T) {
+	for lower, capitalized := range CapitalizeMixture {
+		assertEqual(t, capitalized, Capitalize(lower))
+	}
+}
+
+func TestCamelize(t *testing.T) {
+	for camel, underscore := range CamelToUnderscore {
+		assertEqual(t, camel, Camelize(underscore))
+	}
+}
+
+func TestCamelizeOtherSeparators(t *testing.T) {
+	for camel, other := range CamelOthers {
+		assertEqual(t, camel, Camelize(other))
+	}
+}
+
+func TestCamelizeWithLowerDowncasesTheFirstLetter(t *testing.T) {
+	assertEqual(t, "capital", CamelizeDownFirst("Capital"))
+}
+
+func TestCamelizeWithUnderscores(t *testing.T) {
+	assertEqual(t, "CamelCase", Camelize("Camel_Case"))
+}
+
+// func TestAcronyms(t *testing.T) {
+//     AddAcronym("API")
+//     AddAcronym("HTML")
+//     AddAcronym("HTTP")
+//     AddAcronym("RESTful")
+//     AddAcronym("W3C")
+//     AddAcronym("PhD")
+//     AddAcronym("RoR")
+//     AddAcronym("SSL")
+//     // each in table
+//     for _,x := range AcronymCases {
+//         assertEqual(t, x.camel, Camelize(x.under))
+//         assertEqual(t, x.camel, Camelize(x.camel))
+//         assertEqual(t, x.under, Underscore(x.under))
+//         assertEqual(t, x.under, Underscore(x.camel))
+//         assertEqual(t, x.title, Titleize(x.under))
+//         assertEqual(t, x.title, Titleize(x.camel))
+//         assertEqual(t, x.human, Humanize(x.under))
+//     }
+// }
+
+// func TestAcronymOverride(t *testing.T) {
+//     AddAcronym("API")
+//     AddAcronym("LegacyApi")
+//     assertEqual(t, "LegacyApi", Camelize("legacyapi"))
+//     assertEqual(t, "LegacyAPI", Camelize("legacy_api"))
+//     assertEqual(t, "SomeLegacyApi", Camelize("some_legacyapi"))
+//     assertEqual(t, "Nonlegacyapi", Camelize("nonlegacyapi"))
+// }
+
+// func TestAcronymsCamelizeLower(t *testing.T) {
+//     AddAcronym("API")
+//     AddAcronym("HTML")
+//     assertEqual(t, "htmlAPI", CamelizeDownFirst("html_api"))
+//     assertEqual(t, "htmlAPI", CamelizeDownFirst("htmlAPI"))
+//     assertEqual(t, "htmlAPI", CamelizeDownFirst("HTMLAPI"))
+// }
+
+func TestUnderscoreAcronymSequence(t *testing.T) {
+	AddAcronym("API")
+	AddAcronym("HTML5")
+	AddAcronym("HTML")
+	assertEqual(t, "html5_html_api", Underscore("HTML5HTMLAPI"))
+}
+
+func TestUnderscore(t *testing.T) {
+	for camel, underscore := range CamelToUnderscore {
+		assertEqual(t, underscore, Underscore(camel))
+	}
+	for camel, underscore := range CamelToUnderscoreWithoutReverse {
+		assertEqual(t, underscore, Underscore(camel))
+	}
+}
+
+func TestForeignKey(t *testing.T) {
+	for klass, foreignKey := range ClassNameToForeignKeyWithUnderscore {
+		assertEqual(t, foreignKey, ForeignKey(klass))
+	}
+	for word, foreignKey := range PluralToForeignKeyWithUnderscore {
+		assertEqual(t, foreignKey, ForeignKey(word))
+	}
+	for klass, foreignKey := range ClassNameToForeignKeyWithoutUnderscore {
+		assertEqual(t, foreignKey, ForeignKeyCondensed(klass))
+	}
+}
+
+func TestTableize(t *testing.T) {
+	for klass, table := range ClassNameToTableName {
+		assertEqual(t, table, Tableize(klass))
+	}
+}
+
+func TestParameterize(t *testing.T) {
+	for str, parameterized := range StringToParameterized {
+		assertEqual(t, parameterized, Parameterize(str))
+	}
+}
+
+func TestParameterizeAndNormalize(t *testing.T) {
+	for str, parameterized := range StringToParameterizedAndNormalized {
+		assertEqual(t, parameterized, Parameterize(str))
+	}
+}
+
+func TestParameterizeWithCustomSeparator(t *testing.T) {
+	for str, parameterized := range StringToParameterizeWithUnderscore {
+		assertEqual(t, parameterized, ParameterizeJoin(str, "_"))
+	}
+}
+
+func TestTypeify(t *testing.T) {
+	for klass, table := range ClassNameToTableName {
+		assertEqual(t, klass, Typeify(table))
+		assertEqual(t, klass, Typeify("table_prefix."+table))
+	}
+}
+
+func TestTypeifyWithLeadingSchemaName(t *testing.T) {
+	assertEqual(t, "FooBar", Typeify("schema.foo_bar"))
+}
+
+func TestHumanize(t *testing.T) {
+	for underscore, human := range UnderscoreToHuman {
+		assertEqual(t, human, Humanize(underscore))
+	}
+}
+
+func TestHumanizeByString(t *testing.T) {
+	AddHuman("col_rpted_bugs", "reported bugs")
+	assertEqual(t, "90 reported bugs recently", Humanize("90 col_rpted_bugs recently"))
+}
+
+func TestOrdinal(t *testing.T) {
+	for number, ordinalized := range OrdinalNumbers {
+		assertEqual(t, ordinalized, Ordinalize(number))
+	}
+
+	t.Run("should not ordinalize when not a number", func(t *testing.T) {
+		const s = "not_a_number"
+		assertEqual(t, s, Ordinalize(s))
+	})
+}
+
+func TestAsciify(t *testing.T) {
+	const s, expected = "àçéä", "acea"
+	assertEqual(t, expected, Asciify(s))
+}
+
+func TestDasherize(t *testing.T) {
+	for underscored, dasherized := range UnderscoresToDashes {
+		assertEqual(t, dasherized, Dasherize(underscored))
+	}
+}
+
+func TestUnderscoreAsReverseOfDasherize(t *testing.T) {
+	for underscored := range UnderscoresToDashes {
+		assertEqual(t, underscored, Underscore(Dasherize(underscored)))
+	}
+}
+
+func TestUnderscoreToLowerCamel(t *testing.T) {
+	for underscored, lower := range UnderscoreToLowerCamel {
+		assertEqual(t, lower, CamelizeDownFirst(underscored))
+	}
+}
+
+/*
+func Test_clear_all(t *testing.T) {
+	// test a way of resetting inflexions
+}
+*/
+
+func TestIrregularityBetweenSingularAndPlural(t *testing.T) {
+	for singular, plural := range Irregularities {
+		AddIrregular(singular, plural)
+		assertEqual(t, singular, Singularize(plural))
+		assertEqual(t, plural, Pluralize(singular))
+	}
+}
+
+func TestPluralizeOfIrregularity(t *testing.T) {
+	for singular, plural := range Irregularities {
+		AddIrregular(singular, plural)
+		assertEqual(t, plural, Pluralize(plural))
+	}
+}
+
+// assert helper
 func assertEqual(t *testing.T, a, b string) {
+	t.Helper()
 	if a != b {
 		t.Errorf("inflect: expected %v got %v", a, b)
 	}
@@ -96,6 +356,7 @@ var SingularToPlural = map[string]string{
 }
 
 var CapitalizeMixture = map[string]string{
+	//expected: test case
 	"product":               "Product",
 	"special_guest":         "Special_guest",
 	"applicationController": "ApplicationController",
@@ -107,6 +368,13 @@ var CamelToUnderscore = map[string]string{
 	"SpecialGuest":          "special_guest",
 	"ApplicationController": "application_controller",
 	"Area51Controller":      "area51_controller",
+}
+
+var CamelOthers = map[string]string{
+	// other separators
+	"BlankController":     "blank controller",
+	"SpaceController":     "space\tcontroller",
+	"SeparatorController": "separator:controller",
 }
 
 var UnderscoreToLowerCamel = map[string]string{
@@ -311,248 +579,4 @@ var AcronymCases = []*AcronymCase{
 	{"Html5", "html5", "Html5", "Html5"},
 	{"Restfully", "restfully", "Restfully", "Restfully"},
 	{"RoRails", "ro_rails", "Ro rails", "Ro Rails"},
-}
-
-// tests
-
-func TestPluralizePlurals(t *testing.T) {
-	assertEqual(t, "plurals", Pluralize("plurals"))
-	assertEqual(t, "Plurals", Pluralize("Plurals"))
-}
-
-func TestPluralizeEmptyString(t *testing.T) {
-	assertEqual(t, "", Pluralize(""))
-}
-
-func TestUncountables(t *testing.T) {
-	for word := range Uncountables() {
-		assertEqual(t, word, Singularize(word))
-		assertEqual(t, word, Pluralize(word))
-		assertEqual(t, Pluralize(word), Singularize(word))
-	}
-}
-
-func TestUncountableWordIsNotGreedy(t *testing.T) {
-	uncountableWord := "ors"
-	countableWord := "sponsor"
-
-	AddUncountable(uncountableWord)
-
-	assertEqual(t, uncountableWord, Singularize(uncountableWord))
-	assertEqual(t, uncountableWord, Pluralize(uncountableWord))
-	assertEqual(t, Pluralize(uncountableWord), Singularize(uncountableWord))
-	assertEqual(t, "sponsor", Singularize(countableWord))
-	assertEqual(t, "sponsors", Pluralize(countableWord))
-	assertEqual(t, "sponsor", Singularize(Pluralize(countableWord)))
-}
-
-func TestPluralizeSingular(t *testing.T) {
-	for singular, plural := range SingularToPlural {
-		assertEqual(t, plural, Pluralize(singular))
-		assertEqual(t, Capitalize(plural), Capitalize(Pluralize(singular)))
-	}
-}
-
-func TestSingularizePlural(t *testing.T) {
-	for singular, plural := range SingularToPlural {
-		assertEqual(t, singular, Singularize(plural))
-		assertEqual(t, Capitalize(singular), Capitalize(Singularize(plural)))
-	}
-}
-
-func TestPluralizePlural(t *testing.T) {
-	for _, plural := range SingularToPlural {
-		assertEqual(t, plural, Pluralize(plural))
-		assertEqual(t, Capitalize(plural), Capitalize(Pluralize(plural)))
-	}
-}
-
-func TestOverwritePreviousInflectors(t *testing.T) {
-	assertEqual(t, "series", Singularize("series"))
-	AddSingular("series", "serie")
-	assertEqual(t, "serie", Singularize("series"))
-	AddUncountable("series") // reset
-}
-
-func TestTitleize(t *testing.T) {
-	for before, titleized := range MixtureToTitleCase {
-		assertEqual(t, titleized, Titleize(before))
-	}
-}
-
-func TestCapitalize(t *testing.T) {
-	for lower, capitalized := range CapitalizeMixture {
-		assertEqual(t, capitalized, Capitalize(lower))
-	}
-}
-
-func TestCamelize(t *testing.T) {
-	for camel, underscore := range CamelToUnderscore {
-		assertEqual(t, camel, Camelize(underscore))
-	}
-}
-
-func TestCamelizeWithLowerDowncasesTheFirstLetter(t *testing.T) {
-	assertEqual(t, "capital", CamelizeDownFirst("Capital"))
-}
-
-func TestCamelizeWithUnderscores(t *testing.T) {
-	assertEqual(t, "CamelCase", Camelize("Camel_Case"))
-}
-
-// func TestAcronyms(t *testing.T) {
-//     AddAcronym("API")
-//     AddAcronym("HTML")
-//     AddAcronym("HTTP")
-//     AddAcronym("RESTful")
-//     AddAcronym("W3C")
-//     AddAcronym("PhD")
-//     AddAcronym("RoR")
-//     AddAcronym("SSL")
-//     // each in table
-//     for _,x := range AcronymCases {
-//         assertEqual(t, x.camel, Camelize(x.under))
-//         assertEqual(t, x.camel, Camelize(x.camel))
-//         assertEqual(t, x.under, Underscore(x.under))
-//         assertEqual(t, x.under, Underscore(x.camel))
-//         assertEqual(t, x.title, Titleize(x.under))
-//         assertEqual(t, x.title, Titleize(x.camel))
-//         assertEqual(t, x.human, Humanize(x.under))
-//     }
-// }
-
-// func TestAcronymOverride(t *testing.T) {
-//     AddAcronym("API")
-//     AddAcronym("LegacyApi")
-//     assertEqual(t, "LegacyApi", Camelize("legacyapi"))
-//     assertEqual(t, "LegacyAPI", Camelize("legacy_api"))
-//     assertEqual(t, "SomeLegacyApi", Camelize("some_legacyapi"))
-//     assertEqual(t, "Nonlegacyapi", Camelize("nonlegacyapi"))
-// }
-
-// func TestAcronymsCamelizeLower(t *testing.T) {
-//     AddAcronym("API")
-//     AddAcronym("HTML")
-//     assertEqual(t, "htmlAPI", CamelizeDownFirst("html_api"))
-//     assertEqual(t, "htmlAPI", CamelizeDownFirst("htmlAPI"))
-//     assertEqual(t, "htmlAPI", CamelizeDownFirst("HTMLAPI"))
-// }
-
-func TestUnderscoreAcronymSequence(t *testing.T) {
-	AddAcronym("API")
-	AddAcronym("HTML5")
-	AddAcronym("HTML")
-	assertEqual(t, "html5_html_api", Underscore("HTML5HTMLAPI"))
-}
-
-func TestUnderscore(t *testing.T) {
-	for camel, underscore := range CamelToUnderscore {
-		assertEqual(t, underscore, Underscore(camel))
-	}
-	for camel, underscore := range CamelToUnderscoreWithoutReverse {
-		assertEqual(t, underscore, Underscore(camel))
-	}
-}
-
-func TestForeignKey(t *testing.T) {
-	for klass, foreignKey := range ClassNameToForeignKeyWithUnderscore {
-		assertEqual(t, foreignKey, ForeignKey(klass))
-	}
-	for word, foreignKey := range PluralToForeignKeyWithUnderscore {
-		assertEqual(t, foreignKey, ForeignKey(word))
-	}
-	for klass, foreignKey := range ClassNameToForeignKeyWithoutUnderscore {
-		assertEqual(t, foreignKey, ForeignKeyCondensed(klass))
-	}
-}
-
-func TestTableize(t *testing.T) {
-	for klass, table := range ClassNameToTableName {
-		assertEqual(t, table, Tableize(klass))
-	}
-}
-
-func TestParameterize(t *testing.T) {
-	for str, parameterized := range StringToParameterized {
-		assertEqual(t, parameterized, Parameterize(str))
-	}
-}
-
-func TestParameterizeAndNormalize(t *testing.T) {
-	for str, parameterized := range StringToParameterizedAndNormalized {
-		assertEqual(t, parameterized, Parameterize(str))
-	}
-}
-
-func TestParameterizeWithCustomSeparator(t *testing.T) {
-	for str, parameterized := range StringToParameterizeWithUnderscore {
-		assertEqual(t, parameterized, ParameterizeJoin(str, "_"))
-	}
-}
-
-func TestTypeify(t *testing.T) {
-	for klass, table := range ClassNameToTableName {
-		assertEqual(t, klass, Typeify(table))
-		assertEqual(t, klass, Typeify("table_prefix."+table))
-	}
-}
-
-func TestTypeifyWithLeadingSchemaName(t *testing.T) {
-	assertEqual(t, "FooBar", Typeify("schema.foo_bar"))
-}
-
-func TestHumanize(t *testing.T) {
-	for underscore, human := range UnderscoreToHuman {
-		assertEqual(t, human, Humanize(underscore))
-	}
-}
-
-func TestHumanizeByString(t *testing.T) {
-	AddHuman("col_rpted_bugs", "reported bugs")
-	assertEqual(t, "90 reported bugs recently", Humanize("90 col_rpted_bugs recently"))
-}
-
-func TestOrdinal(t *testing.T) {
-	for number, ordinalized := range OrdinalNumbers {
-		assertEqual(t, ordinalized, Ordinalize(number))
-	}
-}
-
-func TestDasherize(t *testing.T) {
-	for underscored, dasherized := range UnderscoresToDashes {
-		assertEqual(t, dasherized, Dasherize(underscored))
-	}
-}
-
-func TestUnderscoreAsReverseOfDasherize(t *testing.T) {
-	for underscored := range UnderscoresToDashes {
-		assertEqual(t, underscored, Underscore(Dasherize(underscored)))
-	}
-}
-
-func TestUnderscoreToLowerCamel(t *testing.T) {
-	for underscored, lower := range UnderscoreToLowerCamel {
-		assertEqual(t, lower, CamelizeDownFirst(underscored))
-	}
-}
-
-/*
-func Test_clear_all(t *testing.T) {
-	// test a way of resetting inflexions
-}
-*/
-
-func TestIrregularityBetweenSingularAndPlural(t *testing.T) {
-	for singular, plural := range Irregularities {
-		AddIrregular(singular, plural)
-		assertEqual(t, singular, Singularize(plural))
-		assertEqual(t, plural, Pluralize(singular))
-	}
-}
-
-func TestPluralizeOfIrregularity(t *testing.T) {
-	for singular, plural := range Irregularities {
-		AddIrregular(singular, plural)
-		assertEqual(t, plural, Pluralize(plural))
-	}
 }
