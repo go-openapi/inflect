@@ -500,6 +500,8 @@ func (rs *Ruleset) Dasherize(word string) string {
 }
 
 // "1031" -> "1031st"
+//
+//nolint:mnd
 func (rs *Ruleset) Ordinalize(str string) string {
 	number, err := strconv.Atoi(str)
 	if err != nil {
