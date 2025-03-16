@@ -63,6 +63,8 @@ func TestOverwritePreviousInflectors(t *testing.T) {
 	AddSingular("series", "serie")
 	assertEqual(t, "serie", Singularize("series"))
 	AddUncountable("series") // reset
+	AddPlural("wolf", "wolves")
+	assertEqual(t, "wolves", Pluralize("wolf"))
 }
 
 func TestTitleize(t *testing.T) {
