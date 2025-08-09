@@ -307,15 +307,6 @@ func (rs *Ruleset) AddUncountable(word string) {
 	rs.uncountables[strings.ToLower(word)] = true
 }
 
-func (rs *Ruleset) isUncountable(word string) bool {
-	// handle multiple words by using the last one
-	words := strings.Split(word, " ")
-	if _, exists := rs.uncountables[strings.ToLower(words[len(words)-1])]; exists {
-		return true
-	}
-	return false
-}
-
 // returns the plural form of a singular word
 func (rs *Ruleset) Pluralize(word string) string {
 	if len(word) == 0 {
@@ -383,20 +374,6 @@ func (rs *Ruleset) Titleize(word string) string {
 	return strings.Join(words, " ")
 }
 
-func (rs *Ruleset) safeCaseAcronyms(word string) string {
-	// convert an acroymn like HTML into Html
-	for _, rule := range rs.acronyms {
-		word = strings.ReplaceAll(word, rule.suffix, rule.replacement)
-	}
-	return word
-}
-
-func (rs *Ruleset) seperatedWords(word, sep string) string {
-	word = rs.safeCaseAcronyms(word)
-	words := splitAtCaseChange(word)
-	return strings.Join(words, sep)
-}
-
 // lowercase underscore version "BigBen" -> "big_ben"
 func (rs *Ruleset) Underscore(word string) string {
 	return rs.seperatedWords(word, "_")
@@ -452,32 +429,6 @@ func (rs *Ruleset) ParameterizeJoin(word, sep string) string {
 	return word
 }
 
-var lookalikes = map[string]*regexp.Regexp{
-	"A":  regexp.MustCompile(`À|Á|Â|Ã|Ä|Å`),
-	"AE": regexp.MustCompile(`Æ`),
-	"C":  regexp.MustCompile(`Ç`),
-	"E":  regexp.MustCompile(`È|É|Ê|Ë`),
-	"G":  regexp.MustCompile(`Ğ`),
-	"I":  regexp.MustCompile(`Ì|Í|Î|Ï|İ`),
-	"N":  regexp.MustCompile(`Ñ`),
-	"O":  regexp.MustCompile(`Ò|Ó|Ô|Õ|Ö|Ø`),
-	"S":  regexp.MustCompile(`Ş`),
-	"U":  regexp.MustCompile(`Ù|Ú|Û|Ü`),
-	"Y":  regexp.MustCompile(`Ý`),
-	"ss": regexp.MustCompile(`ß`),
-	"a":  regexp.MustCompile(`à|á|â|ã|ä|å`),
-	"ae": regexp.MustCompile(`æ`),
-	"c":  regexp.MustCompile(`ç`),
-	"e":  regexp.MustCompile(`è|é|ê|ë`),
-	"g":  regexp.MustCompile(`ğ`),
-	"i":  regexp.MustCompile(`ì|í|î|ï|ı`),
-	"n":  regexp.MustCompile(`ñ`),
-	"o":  regexp.MustCompile(`ò|ó|ô|õ|ö|ø`),
-	"s":  regexp.MustCompile(`ş`),
-	"u":  regexp.MustCompile(`ù|ú|û|ü|ũ|ū|ŭ|ů|ű|ų`),
-	"y":  regexp.MustCompile(`ý|ÿ`),
-}
-
 // transforms latin characters like é -> e
 func (rs *Ruleset) Asciify(word string) string {
 	for repl, regex := range lookalikes {
@@ -521,6 +472,55 @@ func (rs *Ruleset) Ordinalize(str string) string {
 		}
 	}
 	return fmt.Sprintf("%dth", number)
+}
+
+func (rs *Ruleset) isUncountable(word string) bool {
+	// handle multiple words by using the last one
+	words := strings.Split(word, " ")
+	if _, exists := rs.uncountables[strings.ToLower(words[len(words)-1])]; exists {
+		return true
+	}
+	return false
+}
+
+func (rs *Ruleset) safeCaseAcronyms(word string) string {
+	// convert an acroymn like HTML into Html
+	for _, rule := range rs.acronyms {
+		word = strings.ReplaceAll(word, rule.suffix, rule.replacement)
+	}
+	return word
+}
+
+func (rs *Ruleset) seperatedWords(word, sep string) string {
+	word = rs.safeCaseAcronyms(word)
+	words := splitAtCaseChange(word)
+	return strings.Join(words, sep)
+}
+
+var lookalikes = map[string]*regexp.Regexp{
+	"A":  regexp.MustCompile(`À|Á|Â|Ã|Ä|Å`),
+	"AE": regexp.MustCompile(`Æ`),
+	"C":  regexp.MustCompile(`Ç`),
+	"E":  regexp.MustCompile(`È|É|Ê|Ë`),
+	"G":  regexp.MustCompile(`Ğ`),
+	"I":  regexp.MustCompile(`Ì|Í|Î|Ï|İ`),
+	"N":  regexp.MustCompile(`Ñ`),
+	"O":  regexp.MustCompile(`Ò|Ó|Ô|Õ|Ö|Ø`),
+	"S":  regexp.MustCompile(`Ş`),
+	"U":  regexp.MustCompile(`Ù|Ú|Û|Ü`),
+	"Y":  regexp.MustCompile(`Ý`),
+	"ss": regexp.MustCompile(`ß`),
+	"a":  regexp.MustCompile(`à|á|â|ã|ä|å`),
+	"ae": regexp.MustCompile(`æ`),
+	"c":  regexp.MustCompile(`ç`),
+	"e":  regexp.MustCompile(`è|é|ê|ë`),
+	"g":  regexp.MustCompile(`ğ`),
+	"i":  regexp.MustCompile(`ì|í|î|ï|ı`),
+	"n":  regexp.MustCompile(`ñ`),
+	"o":  regexp.MustCompile(`ò|ó|ô|õ|ö|ø`),
+	"s":  regexp.MustCompile(`ş`),
+	"u":  regexp.MustCompile(`ù|ú|û|ü|ũ|ū|ŭ|ů|ű|ų`),
+	"y":  regexp.MustCompile(`ý|ÿ`),
 }
 
 /////////////////////////////////////////
