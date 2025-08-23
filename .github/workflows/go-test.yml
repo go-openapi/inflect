@@ -10,5 +10,6 @@ on:
   pull_request:
 
 jobs:
-  uses: go-openapi/.github/workflows/go-test.yml@master
-  secrets: inherit
+  test:
+    uses: go-openapi/.github/workflows/go-test.yml@master
+    secrets: inherit

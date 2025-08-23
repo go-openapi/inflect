@@ -6,5 +6,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  uses: go-openapi/.github/workflows/auto-merge.yml@master
-  secrets: inherit
+  dependabot:
+    uses: go-openapi/.github/workflows/auto-merge.yml@master
+    secrets: inherit
