@@ -7,5 +7,5 @@ permissions:
 
 jobs:
   dependabot:
-    uses: go-openapi/.github/workflows/auto-merge.yml@master
+    uses: go-openapi/ci-workflows/.github/workflows/auto-merge.yml@master
     secrets: inherit
