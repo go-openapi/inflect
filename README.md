@@ -16,3 +16,9 @@ A golang library applying grammar rules to English words.
 > (Capitalize, camelCase, snake_case, etc.).
 >
 > Acronyms are properly handled. A common use case is word pluralization.
+
+
+
+# Note to maintainers
+
+* Aug. 2025: CI workflows have now moved to a shared repository go-openapi/ci-workflows
