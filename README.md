@@ -18,7 +18,9 @@ A golang library applying grammar rules to English words.
 > Acronyms are properly handled. A common use case is word pluralization.
 
 
-
 # Note to maintainers
+
+* This library is not used at all by other go-openapi packages and is somewhat redundant with
+  go-openapi/swag/mangling (for camelcase etc).
 
 * Aug. 2025: CI workflows have now moved to a shared repository go-openapi/ci-workflows
