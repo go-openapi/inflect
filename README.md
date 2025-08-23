@@ -16,3 +16,13 @@ A golang library applying grammar rules to English words.
 > (Capitalize, camelCase, snake_case, etc.).
 >
 > Acronyms are properly handled. A common use case is word pluralization.
+
+
+This library is not used at all by other go-openapi packages and is somewhat redundant with
+go-openapi/swag/mangling (for camelcase etc).
+
+Currently we have one single dependency in one place in a go-swagger template (used as a funcmap).
+
+## Note to maintainers
+
+* Aug. 2025: CI workflows have now moved to a shared repository go-openapi/ci-workflows
