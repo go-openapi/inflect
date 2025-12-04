@@ -12,7 +12,7 @@ jobs:
   release:
     permissions:
       contents: write
-    uses: ./.github/workflows/release.yml
+    uses: go-openapi/ci-workflows/.github/workflows/release.yml@master
     with:
       tag: ${{ github.ref_name }}
     secrets: inherit
