@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright 2015-2025 go-swagger maintainers
+// SPDX-License-Identifier: Apache-2.0
+
 package inflect
 
 import (
@@ -266,7 +269,7 @@ func TestPluralizeOfIrregularity(t *testing.T) {
 	}
 }
 
-// assert helper
+// assert helper.
 func assertEqual(t *testing.T, a, b string) {
 	t.Helper()
 	if a != b {
@@ -358,7 +361,7 @@ var SingularToPlural = map[string]string{
 }
 
 var CapitalizeMixture = map[string]string{
-	//expected: test case
+	// expected: test case
 	"product":               "Product",
 	"special_guest":         "Special_guest",
 	"applicationController": "ApplicationController",
@@ -453,7 +456,7 @@ var StringToParameterizedAndNormalized = map[string]string{
 	"Opsů":          "opsu",
 	"Ærøskøbing":    "aeroskobing",
 	"Aßlar":         "asslar",
-	"Japanese: 日本語": "japanese",
+	"Japanese: 日本語": "japanese", //nolint:gosmopolitan // fals positive: this is expected for testing
 }
 
 var UnderscoreToHuman = map[string]string{

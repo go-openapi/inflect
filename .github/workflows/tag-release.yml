@@ -1,0 +1,19 @@
+name: Release on tag
+
+permissions:
+  contents: read
+
+on:
+  push:
+    tags:
+      - v[0-9]+*
+
+jobs:
+  gh-release:
+    name: Create release
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yml
+    with:
+      tag: ${{ github.ref_name }}
+    secrets: inherit

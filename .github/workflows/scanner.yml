@@ -1,0 +1,19 @@
+name: Vulnerability scans
+
+on:
+  branch_protection_rule:
+  push:
+    branches: [ "master" ]
+  schedule:
+    - cron: '18 4 * * 3'
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    permissions:
+      contents: read
+      security-events: write
+    uses: ./.github/workflows/scanner.yml
+    secrets: inherit

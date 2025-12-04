@@ -1,9 +1,11 @@
 name: go test
 
+permissions:
+  pull-requests: read
+  contents: read
+
 on:
   push:
-    tags:
-      - v*
     branches:
       - master
 
@@ -11,5 +13,5 @@ on:
 
 jobs:
   test:
-    uses: go-openapi/ci-workflows/.github/workflows/go-test.yml@master
+    uses: ./.github/workflows/go-test.yml
     secrets: inherit
