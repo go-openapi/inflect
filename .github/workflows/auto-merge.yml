@@ -1,11 +1,15 @@
 name: Dependabot auto-merge
-on: pull_request
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+on:
+  pull_request:
 
 jobs:
   dependabot:
-    uses: go-openapi/ci-workflows/.github/workflows/auto-merge.yml@master
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/auto-merge.yml
     secrets: inherit
