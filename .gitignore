@@ -3,3 +3,4 @@ coverage.out
 coverage.txt
 *.cov
 .idea
+.mcp.json
