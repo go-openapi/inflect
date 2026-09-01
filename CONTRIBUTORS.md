@@ -4,11 +4,11 @@
 
 | Total Contributors | Total Contributions |
 | --- | --- |
-| 5  | 50  |
+| 5  | 51  |
 
 | Username | All Time Contribution Count | All Commits |
 | --- | --- | --- |
-| @fredbi | 31 | <https://github.com/go-openapi/inflect/commits?author=fredbi> |
+| @fredbi | 32 | <https://github.com/go-openapi/inflect/commits?author=fredbi> |
 | @chrisfarms | 13 | <https://github.com/go-openapi/inflect/commits?author=chrisfarms> |
 | @hirochachacha | 4 | <https://github.com/go-openapi/inflect/commits?author=hirochachacha> |
 | @casualjim | 1 | <https://github.com/go-openapi/inflect/commits?author=casualjim> |
