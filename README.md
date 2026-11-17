@@ -5,7 +5,7 @@
 <!-- Badges: release & docker images  -->
 <!-- Badges: code quality  -->
 <!-- Badges: license & compliance -->
-[![Release][release-badge]][release-url] [gocard-url] [![CodeFactor Grade][codefactor-badge]][codefactor-url] [![License][license-badge]][license-url]
+[![Release][release-badge]][release-url] [![CodeFactor Grade][codefactor-badge]][codefactor-url] [![License][license-badge]][license-url]
 <!-- Badges: documentation & support -->
 <!-- Badges: others & stats -->
 [![GoDoc][godoc-badge]][godoc-url] [![Discord Channel][discord-badge]][discord-url] [![go version][goversion-badge]][goversion-url] ![Top language][top-badge] ![Commits since latest release][commits-badge]
